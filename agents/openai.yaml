@@ -1,0 +1,4 @@
+interface:
+  display_name: "Polymarket Public Analysis"
+  short_description: "Summarize public wallet behavior and market focus"
+  default_prompt: "Analyze this Polymarket wallet snapshot and summarize market focus, execution style, exposure, liquidity observations, and key risks. Do not provide copy-trade instructions, reproducible signals, or parameter packs."
