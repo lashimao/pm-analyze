@@ -1,10 +1,10 @@
 # PM-Analyze
 
-一个 Claude Skill，用来分析任意 Polymarket 钱包的公开数据。不需要 API Key，不需要装依赖，有 Python 就行。
+一个 Claude Skill，帮你看懂任意 Polymarket 玩家在干什么。
 
 ## 怎么用
 
-1. 打开任意 Polymarket 用户主页，复制浏览器地址栏里的链接
+1. 打开你想分析的 Polymarket 用户主页，复制浏览器地址栏里的链接
 
    ```
    https://polymarket.com/profile/0xABC123DEF456...
@@ -12,57 +12,59 @@
    直接复制整个链接
    ```
 
-2. 跑脚本，把链接贴进去
-
-   ```bash
-   python3 scripts/polymarket_strategy_snapshot.py \
-     --user https://polymarket.com/profile/0xABC123DEF456... \
-     --output snapshot.json
-   ```
-
-3. 搞定。打开 `snapshot.json` 看结果，或者丢给 AI 让它帮你解读。
+2. 把链接丢给 AI，说"帮我分析这个钱包"，搞定。
 
 ## 你能看到什么
 
-**交易行为**
-- 总共交了多少笔、每天平均几笔
-- 每笔下注多少钱（中位数、最大、最小）
-- 两笔交易之间隔多久（能看出是人还是机器人）
+**这个人赚没赚钱**
+- 总盈亏多少刀
+- 胜率多高、平均每次赚多少 / 亏多少
+- 最大回撤——从最高点跌了多少
+- 最惨的一天亏了多少
+
+**他在玩什么**
+- 市场分类占比（体育 / 政治 / 加密 / AI 等）
+- 最常玩的几个市场
+- 是重仓一个市场还是雨露均沾
+
+**他怎么玩的**
+- 每天交易几笔、每笔下多少钱
+- 两笔交易之间隔多久——秒级说明是机器人，小时级说明是人
+- 有没有连续快速下单（2秒内连环出手）
 - 连续亏损最多几笔
 
-**赚没赚钱**
-- 已实现盈亏（FIFO 匹配每一笔买卖算出来的）
-- 胜率、平均赚多少 / 亏多少
-- 最大回撤（从最高点跌了多少）
-- 每天盈亏曲线里最差的一天亏了多少
-
-**在玩什么市场**
-- 市场分类占比（体育 / 政治 / 加密 / AI 等）
-- 玩得最多的几个市场名称和交易次数
-- 是集中押一个市场还是分散下注（HHI 集中度）
-
-**持仓情况**
+**他现在手里有什么**
 - 当前持仓总价值
-- 押了哪边（Yes/No）、有没有对冲
-- 库存偏斜度（全押一边 vs 两边都有）
+- 押的哪边（Yes 还是 No）、有没有对冲
+- 是全押一边还是两边都有
 
-**盘口环境**
-- 他押的那些市场，价差大不大（流动性好不好）
-- 盘口深度（挂了多少钱）
-- 有没有套利空间（Yes+No 价格之和 < 1）
-
-**执行风格**
-- 买卖比例、Yes/No 比例
-- 持仓时间分布（秒级 = 机器人，天级 = 长线）
-- 有没有连续快速下单的 burst 行为（2秒内连续交易的比例）
+**他玩的市场流动性好不好**
+- 价差大不大（买卖之间差多少）
+- 盘口挂了多少钱
+- 有没有套利空间
 
 ## 隐私
 
-默认自动脱敏，钱包地址会被打码成 `0x1234...abcd`，分析结果可以直接分享。
+默认自动脱敏，钱包地址会被打码，分析结果可以直接分享给别人看。
 
-需要原始地址？加 `--include-identifiers`。
+## 不做什么
 
-## 全部参数
+- **不下单** — 只看不动
+- **不跟单** — 不会告诉你"跟着他买"
+- **不依赖私有接口** — 所有数据来自公开 API
+
+## 开发者信息
+
+<details>
+<summary>命令行用法（开发者点这里）</summary>
+
+```bash
+python3 scripts/polymarket_strategy_snapshot.py \
+  --user https://polymarket.com/profile/0xABC123DEF456... \
+  --output snapshot.json
+```
+
+### 全部参数
 
 | 参数 | 默认值 | 说明 |
 |---|---|---|
@@ -78,37 +80,26 @@
 | `--include-identifiers` | 关 | 保留原始钱包地址不脱敏 |
 | `--output` | 标准输出 | 输出 JSON 文件路径 |
 
-## 不做什么
-
-- **不下单** — 纯分析，不会替你交易
-- **不跟单** — 不生成任何跟单信号
-- **不输出参数包** — 不会给你可复现的执行参数
-- **不依赖私有接口** — 所有数据来自公开 API
-
-## 作为 Skill 使用
-
-这个仓库本身是一个 [Claude Skill](https://docs.anthropic.com/)，可以直接被 AI Agent 调用。`SKILL.md` 定义了工作流，`agents/openai.yaml` 定义了默认提示词。
-
-丢一个 snapshot JSON 给 AI，它会帮你总结：市场偏好、执行风格、风险暴露、流动性观察和关键风险点。
-
-## 环境要求
+### 环境要求
 
 - Python 3.8+
 - 不需要装任何包
 
-## 跑测试
+### 跑测试
 
 ```bash
 python3 -m unittest discover -s tests
 ```
 
+</details>
+
 ---
 
 # English
 
-A Claude Skill for analyzing public data of any Polymarket wallet. No API key, no dependencies, just Python.
+A Claude Skill that lets you understand what any Polymarket player is doing.
 
-## How it works
+## How to use
 
 1. Go to any Polymarket profile page, copy the URL from your browser
 
@@ -118,56 +109,59 @@ A Claude Skill for analyzing public data of any Polymarket wallet. No API key, n
    just copy the whole URL
    ```
 
-2. Run the script, paste the URL
-
-   ```bash
-   python3 scripts/polymarket_strategy_snapshot.py \
-     --user https://polymarket.com/profile/0xABC123DEF456... \
-     --output snapshot.json
-   ```
-
-3. Done. Open `snapshot.json` or feed it to an AI for interpretation.
+2. Give the link to an AI and say "analyze this wallet". That's it.
 
 ## What you get
 
-**Trading behavior**
-- Total trades, daily average, notional size distribution
-- Time between trades (spot bots vs humans)
+**Are they making money?**
+- Total realized PnL
+- Win rate, average gain / loss per trade
+- Max drawdown — how far they fell from peak
+- Worst single-day loss
+
+**What are they trading?**
+- Category breakdown (sports / politics / crypto / AI etc.)
+- Their most active markets
+- Concentrated or diversified?
+
+**How do they trade?**
+- Daily trade count, bet size per trade
+- Time between trades — seconds = bot, hours = human
+- Burst trading (rapid-fire orders within 2 seconds)
 - Max consecutive losses
 
-**Profitability**
-- FIFO-matched realized PnL per round-trip
-- Win rate, average gain / loss
-- Max drawdown (peak-to-trough)
-- Worst single-day PnL
-
-**Market focus**
-- Category breakdown (sports / politics / crypto / AI etc.)
-- Top markets by trade count
-- Concentration index (HHI — are they diversified or all-in?)
-
-**Position snapshot**
+**What are they holding right now?**
 - Current portfolio value
 - Which side (Yes / No), hedged or not
-- Inventory skew (one-sided vs balanced)
+- One-sided or balanced positions
 
-**Order book context**
-- Spread and depth around their active markets
-- Top-level liquidity
-- Arbitrage margin (Yes + No best ask < 1.0?)
-
-**Execution style**
-- Buy/sell ratio, Yes/No ratio
-- Hold time distribution (seconds = bot, days = long-term)
-- Burst trading ratio (trades within 2s of each other)
+**How liquid are their markets?**
+- Bid-ask spread
+- Order book depth
+- Arbitrage margin available
 
 ## Privacy
 
-Wallet addresses are masked by default (`0x1234...abcd`). Your analysis is safe to share.
+Wallet addresses are masked by default. Analysis results are safe to share.
 
-Want raw addresses? Add `--include-identifiers`.
+## What this does NOT do
 
-## All options
+- **No trading** — read-only
+- **No copy-trade** — won't tell you to "follow this guy"
+- **No private API** — all data from public endpoints
+
+## For developers
+
+<details>
+<summary>CLI usage (click to expand)</summary>
+
+```bash
+python3 scripts/polymarket_strategy_snapshot.py \
+  --user https://polymarket.com/profile/0xABC123DEF456... \
+  --output snapshot.json
+```
+
+### All options
 
 | Option | Default | Description |
 |---|---|---|
@@ -183,26 +177,15 @@ Want raw addresses? Add `--include-identifiers`.
 | `--include-identifiers` | off | Keep raw wallet addresses in output |
 | `--output` | stdout | Output JSON file path |
 
-## What this does NOT do
-
-- **No trading** — doesn't place any orders
-- **No copy-trade** — doesn't generate follow signals
-- **No parameter packs** — doesn't output reproducible execution params
-- **No private API** — all data from public endpoints
-
-## As a Skill
-
-This repo is a [Claude Skill](https://docs.anthropic.com/) that can be called directly by AI agents. `SKILL.md` defines the workflow, `agents/openai.yaml` defines the default prompt.
-
-Feed a snapshot JSON to an AI and it will summarize: market focus, execution style, exposure, liquidity observations, and key risks.
-
-## Requirements
+### Requirements
 
 - Python 3.8+
 - No pip install needed
 
-## Run tests
+### Run tests
 
 ```bash
 python3 -m unittest discover -s tests
 ```
+
+</details>
