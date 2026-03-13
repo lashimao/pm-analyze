@@ -1,85 +1,92 @@
 # PM-Analyze
 
-Polymarket 钱包公开数据分析工具，零依赖，只用 Python 标准库。
+Analyze any Polymarket wallet in one command. No API key, no dependencies, just Python.
 
-## 这个项目做什么
+一条命令分析任意 Polymarket 钱包。不需要 API Key，不需要装依赖，只要有 Python 就行。
 
-- 拉取目标钱包的公开成交、持仓、事件元数据和订单簿上下文
-- 生成结构化 JSON 快照，覆盖交易节奏、风险暴露、市场集中度和流动性信号
-- 默认脱敏钱包地址（输出里不暴露原始标识）
-- 只负责数据整理，解读留给你
+## How it works / 怎么用
 
-## 不做什么
+1. Go to any Polymarket profile page, copy the wallet address from the URL
 
-- 不下单、不跟单、不输出可复现的执行参数
-- 不依赖任何私有或内部接口
+   打开任意 Polymarket 用户主页，从 URL 里复制钱包地址
 
-## 仓库结构
+   ```
+   https://polymarket.com/profile/0xABC123...
+                                   ^^^^^^^^^^^ copy this / 复制这个
+   ```
 
-```text
-.
-├── README.md
-├── SKILL.md
-├── agents/
-│   └── openai.yaml
-├── scripts/
-│   └── polymarket_strategy_snapshot.py
-└── tests/
-    └── test_public_snapshot.py
-```
+2. Run the script / 运行脚本
 
-## 快速开始
+   ```bash
+   python3 scripts/polymarket_strategy_snapshot.py \
+     --user 0xABC123... \
+     --output snapshot.json
+   ```
+
+3. Done. Open `snapshot.json` to see the full analysis.
+
+   搞定。打开 `snapshot.json` 就能看到完整分析结果。
+
+## What you get / 你能看到什么
+
+| What / 内容 | Example / 举例 |
+|---|---|
+| Trading rhythm / 交易节奏 | How often they trade, what time of day / 多久交一次，什么时间段活跃 |
+| Market focus / 市场偏好 | Sports? Politics? Crypto? / 玩体育？政治？加密？ |
+| Position exposure / 持仓暴露 | How much money at risk, which direction / 押了多少钱，押的哪边 |
+| PnL / 盈亏 | Are they making or losing money / 赚了还是亏了 |
+| Order book context / 盘口上下文 | Spread, depth, liquidity around their positions / 他们持仓附近的价差、深度、流动性 |
+| Execution style / 执行风格 | Market orders vs limit orders, size patterns / 市价单还是限价单，下单大小规律 |
+
+## Privacy / 隐私
+
+By default, wallet addresses are masked in the output (`0x1234...abcd`). Your analysis is safe to share.
+
+默认自动脱敏，输出里的钱包地址会被打码成 `0x1234...abcd`，分析结果可以直接分享。
+
+Want raw addresses? Add `--include-identifiers`.
+
+需要保留原始地址？加 `--include-identifiers`。
+
+## Advanced options / 进阶参数
 
 ```bash
 python3 scripts/polymarket_strategy_snapshot.py \
-  --user 0xYOUR_WALLET_ADDRESS \
-  --days 14 \
-  --limit 20000 \
-  --top-slugs 12 \
-  --output /tmp/polymarket_strategy_snapshot.json
+  --user 0xABC123... \
+  --days 14 \          # lookback window, default 30 / 回看天数，默认30
+  --limit 20000 \      # max rows to fetch / 最多拉多少条数据
+  --top-slugs 12 \     # how many markets to deep-dive / 深入分析几个市场
+  --output snapshot.json
 ```
 
-## 隐私默认值
+## What this does NOT do / 不做什么
 
-脚本默认对输出里的身份信息打码：
+- **No trading** — it doesn't place any orders / 不会下单
+- **No copy-trade** — it doesn't generate follow signals / 不会生成跟单信号
+- **No private API** — all data comes from public endpoints / 所有数据来自公开接口
 
-- `meta.user` → `0x1234...abcd`
-- 报错记录保留接口结构，但 `user`、`wallet`、`address` 参数会被遮蔽
+## Repo layout / 仓库结构
 
-如果需要保留原始地址，加 `--include-identifiers`。
+```
+scripts/polymarket_strategy_snapshot.py   ← the main script / 主脚本
+agents/openai.yaml                        ← default prompt for AI analysis / AI 分析默认提示词
+tests/test_public_snapshot.py             ← unit tests / 单元测试
+SKILL.md                                  ← workflow docs / 工作流文档
+```
 
-## 输出结构
+## Requirements / 环境要求
 
-生成的 JSON 主要包含：
+- Python 3.8+
+- No pip install needed / 不需要装任何包
 
-| 字段 | 说明 |
-|------|------|
-| `meta` | 生成时间、时间窗口、抓取行数、脱敏标记 |
-| `activity_signals` | 交易节奏、方向分布、市场集中度 |
-| `position_signals` | 库存偏斜、头寸价值、PnL、双边覆盖 |
-| `ev_signals` | 成交质量和回转指标 |
-| `official_market_profile` | 公开市场元数据的分类和标签覆盖 |
-| `slug_market_profile` | 基于 slug 的兜底分类 |
-| `orderbook_signals` | 价差、深度、盘口配对检查 |
-| `market_snapshots` | 重点 slug 的元数据和订单簿补充 |
-| `null_audit` | 空值检查 |
-| `errors` | 带脱敏接口记录的抓取错误 |
-
-## 适用场景
-
-- 公开钱包行为的研究型写作
-- 机器人执行模式分析
-- 市场偏好和风险暴露概览
-- 内部复盘时避免原始地址泄露
-
-## 开发
+## Run tests / 跑测试
 
 ```bash
 python3 -m unittest discover -s tests
 ```
 
-## 说明
+## Notes / 注意
 
-- 数据来自 Polymarket 公开接口，随时间可能变化
-- 部分老市场元数据覆盖不完整
-- 订单簿快照是当前可成交状态，不是历史成交回放
+- Data comes from public Polymarket endpoints, may change over time / 数据来自公开接口，可能随时间变化
+- Some older markets may have incomplete metadata / 部分老市场元数据不完整
+- Order book snapshots show current state, not historical fills / 订单簿是当前状态，不是历史成交
