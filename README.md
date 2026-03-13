@@ -14,6 +14,8 @@
 
 2. 把链接丢给 AI，说"帮我分析这个钱包"，搞定。
 
+> 一次分析大概拉 4000+ 条交易记录、全部持仓、10 个重点市场的实时盘口，耗时约 30 秒到几分钟，取决于这个人交易多不多。活跃大户可以拉到 20000 条以上。
+
 ## 怎么用来赚钱
 
 Polymarket 是公开的，所有人的交易记录都能查。
@@ -152,6 +154,8 @@ A Claude Skill that extracts the strategy core of any Polymarket player — wher
    ```
 
 2. Give the link to an AI and say "analyze this wallet". That's it.
+
+> A single run pulls 4,000+ trade records, all positions, and real-time order books for the top 10 markets. Takes ~30 seconds to a few minutes depending on activity level. Heavy traders can go up to 20,000+ rows.
 
 ## What you get
 
