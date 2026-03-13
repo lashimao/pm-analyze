@@ -30,6 +30,13 @@ Polymarket 是公开的，所有人的交易记录都能查。
 - **回转胜率**：在同一个市场里来回交易，赢的比例有多高。稳定高于 60% 说明他在这个市场有真实 edge，低于 50% 说明他在瞎猜。
 - **持仓时间**：秒级出手 = 程序化套利；天级持有 = 主观判断。两种模式都能赚钱，但逻辑完全不同，别把程序员当选手学。
 
+**策略核心：** 赚钱的人通常有以下几个共同特征，通过分析可以验证。
+
+- **专注 > 分散**：集中度指数（HHI）高的玩家，往往在某个领域有真实信息优势。雨露均沾的玩家大多在猜——他不可能对所有市场都比市场更聪明。
+- **流动性差的市场机会更多**：价差大、盘口浅的市场，定价错误更多。好的玩家倾向于在流动性差的市场建仓，而不是跟大家抢热门市场。
+- **套利信号**：Yes 价 + No 价 < $1，说明市场定价出了问题。这种机会短暂，出现就是纯 EV，分析里会直接标出来。
+- **下注大小有规律的人更危险**：固定下注 = 没有仓位管理；下注大小随市场波动 = 有主观判断在里面。前者靠运，后者靠功。
+
 ---
 
 ## 你能看到什么
@@ -183,6 +190,13 @@ Polymarket is public — anyone's trade history is queryable.
 - **Buy WAP vs sell WAP:** A trader with real edge consistently buys below the eventual resolution price. High PnL but high buy WAP = probably luck, not judgment.
 - **Round-trip win rate:** For markets they traded both sides of, how often did they profit? Consistently above 60% = real edge in that market. Below 50% = guessing.
 - **Hold time:** Seconds = programmatic arbitrage. Days = discretionary judgment. Both can be profitable, but they're completely different games — don't try to copy a bot's market selection with a human's timing.
+
+**Strategy core:** Profitable traders tend to share a few patterns that show up in the signals.
+
+- **Specialization > diversification:** High HHI (concentration) means they focus on a specific domain where they have real information edge. Spread-thin traders are mostly guessing — nobody has an edge in every market simultaneously.
+- **Illiquid markets have more opportunity:** Wide spreads and shallow books mean more mispricing. Good traders build positions in low-liquidity markets rather than fighting over well-priced ones.
+- **Arbitrage signals:** Yes price + No price < $1 means the market is mispriced. Pure EV when it appears — the analysis flags these directly.
+- **Variable bet sizing matters:** Fixed bet size = no position management, running on luck. Bet size that varies with conviction = there's actual judgment behind the trades.
 
 ---
 
