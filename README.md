@@ -33,6 +33,11 @@
 - 有没有连续快速下单（2秒内连环出手）
 - 连续亏损最多几笔
 
+**他买得贵不贵（EV 分析）**
+- 买入均价 vs 卖出均价的价差——能看出他有没有在吃亏成交
+- 回转分析：同一个市场里买完再卖，每一笔赚还是亏、赢了多少比例
+- 持仓时间分布：P50 / P75 / P90 分别持有多久才出手
+
 **他现在手里有什么**
 - 当前持仓总价值
 - 押的哪边（Yes 还是 No）、有没有对冲
@@ -129,6 +134,11 @@ A Claude Skill that lets you understand what any Polymarket player is doing.
 - Time between trades — seconds = bot, hours = human
 - Burst trading (rapid-fire orders within 2 seconds)
 - Max consecutive losses
+
+**Are they getting good prices? (EV signals)**
+- Buy WAP vs sell WAP spread — are they consistently paying up or getting filled well?
+- Round-trip win rate: for each market they traded both sides, how often did they profit?
+- Hold time percentiles (P50 / P75 / P90) — how long before they exit
 
 **What are they holding right now?**
 - Current portfolio value
