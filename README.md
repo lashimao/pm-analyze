@@ -14,6 +14,18 @@
 
 2. 把链接丢给 AI，说"帮我分析这个钱包"，搞定。
 
+## 怎么用来赚钱
+
+Polymarket 是公开的，所有人的交易记录都能查。
+
+**找高手学套路：** 去 [Polymarket 排行榜](https://polymarket.com/leaderboard) 找长期盈利的玩家，把他们的主页链接丢进来分析——他们专注哪类市场、下注节奏是什么、每笔多大，你自己对比着想。
+
+**验钱包真假：** 有人推荐一个"稳赚"的钱包截图？先分析一下，看看他的胜率、回撤、真实盈亏，别被精选截图骗了。
+
+**分析自己：** 把自己的主页链接丢进来，看看你亏在哪——是买太贵、持仓时间不对、还是市场选错了。
+
+---
+
 ## 你能看到什么
 
 **这个人赚没赚钱**
@@ -149,6 +161,18 @@ A Claude Skill that lets you understand what any Polymarket player is doing.
 - Bid-ask spread
 - Order book depth
 - Arbitrage margin available
+
+## How to use this to make money
+
+Polymarket is public — anyone's trade history is queryable.
+
+**Learn from top traders:** Go to the [Polymarket leaderboard](https://polymarket.com/leaderboard), find consistently profitable wallets, and analyze them — what markets do they focus on, how often do they trade, how big are their bets. Use it as research, not copying.
+
+**Verify "alpha" claims:** Someone sharing a screenshot of a "guaranteed winner" wallet? Run it through here first. Check their real win rate, drawdown, and PnL before trusting a cherry-picked screenshot.
+
+**Audit yourself:** Paste your own profile link and see where you're bleeding — are you overpaying, holding too long, or picking the wrong markets?
+
+---
 
 ## Privacy
 
