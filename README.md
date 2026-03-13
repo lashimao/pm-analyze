@@ -4,19 +4,19 @@
 
 ## 怎么用
 
-1. 打开任意 Polymarket 用户主页，复制地址栏里 `profile/` 后面的钱包地址
+1. 打开任意 Polymarket 用户主页，复制浏览器地址栏里的链接
 
    ```
    https://polymarket.com/profile/0xABC123DEF456...
-                                   ^^^^^^^^^^^^^^^^
-                                   复制这段钱包地址
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   直接复制整个链接
    ```
 
-2. 跑脚本
+2. 跑脚本，把链接贴进去
 
    ```bash
    python3 scripts/polymarket_strategy_snapshot.py \
-     --user 0xABC123DEF456... \
+     --user https://polymarket.com/profile/0xABC123DEF456... \
      --output snapshot.json
    ```
 
@@ -24,14 +24,37 @@
 
 ## 你能看到什么
 
-| 内容 | 举例 |
-|---|---|
-| 交易节奏 | 多久交一次，什么时间段活跃 |
-| 市场偏好 | 玩体育？政治？加密？ |
-| 持仓暴露 | 押了多少钱，押的哪边 |
-| 盈亏 | 赚了还是亏了 |
-| 盘口上下文 | 持仓附近的价差、深度、流动性 |
-| 执行风格 | 市价单还是限价单，下单大小规律 |
+**交易行为**
+- 总共交了多少笔、每天平均几笔
+- 每笔下注多少钱（中位数、最大、最小）
+- 两笔交易之间隔多久（能看出是人还是机器人）
+- 连续亏损最多几笔
+
+**赚没赚钱**
+- 已实现盈亏（FIFO 匹配每一笔买卖算出来的）
+- 胜率、平均赚多少 / 亏多少
+- 最大回撤（从最高点跌了多少）
+- 每天盈亏曲线里最差的一天亏了多少
+
+**在玩什么市场**
+- 市场分类占比（体育 / 政治 / 加密 / AI 等）
+- 玩得最多的几个市场名称和交易次数
+- 是集中押一个市场还是分散下注（HHI 集中度）
+
+**持仓情况**
+- 当前持仓总价值
+- 押了哪边（Yes/No）、有没有对冲
+- 库存偏斜度（全押一边 vs 两边都有）
+
+**盘口环境**
+- 他押的那些市场，价差大不大（流动性好不好）
+- 盘口深度（挂了多少钱）
+- 有没有套利空间（Yes+No 价格之和 < 1）
+
+**执行风格**
+- 买卖比例、Yes/No 比例
+- 持仓时间分布（秒级 = 机器人，天级 = 长线）
+- 有没有连续快速下单的 burst 行为（2秒内连续交易的比例）
 
 ## 隐私
 
@@ -43,7 +66,7 @@
 
 | 参数 | 默认值 | 说明 |
 |---|---|---|
-| `--user` | 必填 | 目标钱包地址（0x...） |
+| `--user` | 必填 | Polymarket 主页链接或钱包地址 |
 | `--days` | 全部 | 回看天数 |
 | `--limit` | 4000 | 最多拉多少条数据 |
 | `--top-slugs` | 10 | 深入分析几个市场的盘口 |
@@ -87,19 +110,19 @@ A Claude Skill for analyzing public data of any Polymarket wallet. No API key, n
 
 ## How it works
 
-1. Go to any Polymarket profile page, copy the wallet address after `profile/` in the URL
+1. Go to any Polymarket profile page, copy the URL from your browser
 
    ```
    https://polymarket.com/profile/0xABC123DEF456...
-                                   ^^^^^^^^^^^^^^^^
-                                   copy the wallet address
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   just copy the whole URL
    ```
 
-2. Run the script
+2. Run the script, paste the URL
 
    ```bash
    python3 scripts/polymarket_strategy_snapshot.py \
-     --user 0xABC123DEF456... \
+     --user https://polymarket.com/profile/0xABC123DEF456... \
      --output snapshot.json
    ```
 
@@ -107,14 +130,36 @@ A Claude Skill for analyzing public data of any Polymarket wallet. No API key, n
 
 ## What you get
 
-| What | Example |
-|---|---|
-| Trading rhythm | How often they trade, what time of day |
-| Market focus | Sports? Politics? Crypto? |
-| Position exposure | How much money at risk, which direction |
-| PnL | Are they making or losing money |
-| Order book context | Spread, depth, liquidity around their positions |
-| Execution style | Market orders vs limit orders, size patterns |
+**Trading behavior**
+- Total trades, daily average, notional size distribution
+- Time between trades (spot bots vs humans)
+- Max consecutive losses
+
+**Profitability**
+- FIFO-matched realized PnL per round-trip
+- Win rate, average gain / loss
+- Max drawdown (peak-to-trough)
+- Worst single-day PnL
+
+**Market focus**
+- Category breakdown (sports / politics / crypto / AI etc.)
+- Top markets by trade count
+- Concentration index (HHI — are they diversified or all-in?)
+
+**Position snapshot**
+- Current portfolio value
+- Which side (Yes / No), hedged or not
+- Inventory skew (one-sided vs balanced)
+
+**Order book context**
+- Spread and depth around their active markets
+- Top-level liquidity
+- Arbitrage margin (Yes + No best ask < 1.0?)
+
+**Execution style**
+- Buy/sell ratio, Yes/No ratio
+- Hold time distribution (seconds = bot, days = long-term)
+- Burst trading ratio (trades within 2s of each other)
 
 ## Privacy
 
@@ -126,7 +171,7 @@ Want raw addresses? Add `--include-identifiers`.
 
 | Option | Default | Description |
 |---|---|---|
-| `--user` | required | Target wallet address (0x...) |
+| `--user` | required | Polymarket profile URL or wallet address |
 | `--days` | all | Lookback window in days |
 | `--limit` | 4000 | Max activity rows to fetch |
 | `--top-slugs` | 10 | Markets to enrich with order books |

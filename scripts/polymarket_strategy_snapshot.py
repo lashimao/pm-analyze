@@ -35,7 +35,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Fetch Polymarket activity/positions/market books and compute descriptive signals."
     )
-    parser.add_argument("--user", required=True, help="Target wallet address (0x...).")
+    parser.add_argument("--user", required=True, help="Polymarket profile URL or wallet address (0x...).")
     parser.add_argument(
         "--limit",
         type=int,
@@ -1154,8 +1154,21 @@ def build_null_audit(snapshot: dict[str, Any], sample_limit: int = 200) -> dict[
     }
 
 
+def _resolve_user(raw: str) -> str:
+    """Accept a Polymarket profile URL or a bare wallet address."""
+    import re
+    m = re.search(r"polymarket\.com/profile/(0x[0-9a-fA-F]+)", raw)
+    if m:
+        return m.group(1)
+    raw = raw.strip().rstrip("/")
+    if raw.startswith("0x"):
+        return raw
+    raise SystemExit(f"Cannot parse wallet from: {raw}")
+
+
 def main() -> int:
     args = parse_args()
+    args.user = _resolve_user(args.user)
     global REDACT_IDENTIFIERS
     REDACT_IDENTIFIERS = not args.include_identifiers
     errors: list[dict[str, Any]] = []
