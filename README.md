@@ -24,6 +24,12 @@ Polymarket 是公开的，所有人的交易记录都能查。
 
 **分析自己：** 把自己的主页链接丢进来，看看你亏在哪——是买太贵、持仓时间不对、还是市场选错了。
 
+**用 EV 分辨运气和实力（核心）：** 光看盈亏骗不了你，但 EV 骗不了人。
+
+- **买入均价 vs 卖出均价**：真正有优势的玩家，买进去的价格比最终结算便宜得多。如果一个人赢了很多但买入均价很高，大概率是运气，不是判断力。
+- **回转胜率**：在同一个市场里来回交易，赢的比例有多高。稳定高于 60% 说明他在这个市场有真实 edge，低于 50% 说明他在瞎猜。
+- **持仓时间**：秒级出手 = 程序化套利；天级持有 = 主观判断。两种模式都能赚钱，但逻辑完全不同，别把程序员当选手学。
+
 ---
 
 ## 你能看到什么
@@ -171,6 +177,12 @@ Polymarket is public — anyone's trade history is queryable.
 **Verify "alpha" claims:** Someone sharing a screenshot of a "guaranteed winner" wallet? Run it through here first. Check their real win rate, drawdown, and PnL before trusting a cherry-picked screenshot.
 
 **Audit yourself:** Paste your own profile link and see where you're bleeding — are you overpaying, holding too long, or picking the wrong markets?
+
+**Use EV to separate skill from luck (the core):** Raw PnL is easy to fake with one lucky bet. EV signals are harder to fake.
+
+- **Buy WAP vs sell WAP:** A trader with real edge consistently buys below the eventual resolution price. High PnL but high buy WAP = probably luck, not judgment.
+- **Round-trip win rate:** For markets they traded both sides of, how often did they profit? Consistently above 60% = real edge in that market. Below 50% = guessing.
+- **Hold time:** Seconds = programmatic arbitrage. Days = discretionary judgment. Both can be profitable, but they're completely different games — don't try to copy a bot's market selection with a human's timing.
 
 ---
 
