@@ -37,6 +37,18 @@ Polymarket 是公开的，所有人的交易记录都能查。
 - **套利信号**：Yes 价 + No 价 < $1，说明市场定价出了问题。这种机会短暂，出现就是纯 EV，分析里会直接标出来。
 - **下注大小有规律的人更危险**：固定下注 = 没有仓位管理；下注大小随市场波动 = 有主观判断在里面。前者靠运，后者靠功。
 
+**怎么从分析结果里提取一个人的策略核心：**
+
+找到一个长期盈利的钱包之后，按这个顺序读输出结果：
+
+1. **看 `dominant_category` + HHI**：他主攻什么领域、有多集中。HHI > 0.4 说明高度专注，这个领域可能是他的主场。
+2. **看 `top_slugs_by_trades`**：他最常交易的具体市场名称——这就是他的狩猎场，也是你值得重点关注的市场。
+3. **看 `buy_sell_wap_spread`**：他的买入均价比卖出均价低多少。正数说明他系统性地买在低位，这种人有定价判断力。
+4. **看 `roundtrip_positive_ratio`**：他在每个市场里的回转胜率。找出胜率最高的几个市场——那是他真正有 edge 的地方，不是他运气好的地方。
+5. **看 `hold_sec_p50`**：中位持仓时间。几十秒 = 程序化，几小时到几天 = 主观判断。决定了你能不能跟着学。
+
+这五个数字组合起来，就是一个人的策略核心：**在哪打、打什么价位、拿多久**。
+
 ---
 
 ## 你能看到什么
@@ -197,6 +209,18 @@ Polymarket is public — anyone's trade history is queryable.
 - **Illiquid markets have more opportunity:** Wide spreads and shallow books mean more mispricing. Good traders build positions in low-liquidity markets rather than fighting over well-priced ones.
 - **Arbitrage signals:** Yes price + No price < $1 means the market is mispriced. Pure EV when it appears — the analysis flags these directly.
 - **Variable bet sizing matters:** Fixed bet size = no position management, running on luck. Bet size that varies with conviction = there's actual judgment behind the trades.
+
+**How to extract someone's strategy core from the output:**
+
+Once you find a consistently profitable wallet, read the output in this order:
+
+1. **`dominant_category` + HHI** — what domain they specialize in and how focused they are. HHI > 0.4 = highly concentrated, this is probably their home turf.
+2. **`top_slugs_by_trades`** — the specific markets they trade most. This is their hunting ground, and where you should be paying attention.
+3. **`buy_sell_wap_spread`** — how much cheaper their buys are vs their sells. Positive = they systematically buy low. This is the fingerprint of real pricing judgment.
+4. **`roundtrip_positive_ratio` per market** — where their round-trip win rate is highest. Those are the markets where they have actual edge, not just luck.
+5. **`hold_sec_p50`** — median hold time. Tens of seconds = programmatic. Hours to days = discretionary. Determines whether their style is learnable.
+
+These five numbers together define a trader's strategy core: **where they play, at what price, and for how long.**
 
 ---
 
