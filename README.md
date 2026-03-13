@@ -1,84 +1,5 @@
 # PM-Analyze
 
-Analyze any Polymarket wallet in one command. No API key, no dependencies, just Python.
-
-## How it works
-
-1. Go to any Polymarket profile page, copy the wallet address from the URL
-
-   ```
-   https://polymarket.com/profile/0xABC123...
-                                   ^^^^^^^^^^^ copy this
-   ```
-
-2. Run the script
-
-   ```bash
-   python3 scripts/polymarket_strategy_snapshot.py \
-     --user 0xABC123... \
-     --output snapshot.json
-   ```
-
-3. Done. Open `snapshot.json` to see the full analysis.
-
-## What you get
-
-| What | Example |
-|---|---|
-| Trading rhythm | How often they trade, what time of day |
-| Market focus | Sports? Politics? Crypto? |
-| Position exposure | How much money at risk, which direction |
-| PnL | Are they making or losing money |
-| Order book context | Spread, depth, liquidity around their positions |
-| Execution style | Market orders vs limit orders, size patterns |
-
-## Privacy
-
-Wallet addresses are masked by default (`0x1234...abcd`). Your analysis is safe to share.
-
-Want raw addresses? Add `--include-identifiers`.
-
-## Advanced options
-
-```bash
-python3 scripts/polymarket_strategy_snapshot.py \
-  --user 0xABC123... \
-  --days 14 \          # lookback window, default 30
-  --limit 20000 \      # max rows to fetch
-  --top-slugs 12 \     # how many markets to deep-dive
-  --output snapshot.json
-```
-
-## What this does NOT do
-
-- **No trading** — doesn't place any orders
-- **No copy-trade** — doesn't generate follow signals
-- **No private API** — all data from public endpoints
-
-## Repo layout
-
-```
-scripts/polymarket_strategy_snapshot.py   ← main script
-agents/openai.yaml                        ← default prompt for AI analysis
-tests/test_public_snapshot.py             ← unit tests
-SKILL.md                                  ← workflow docs
-```
-
-## Requirements
-
-- Python 3.8+
-- No pip install needed
-
-## Run tests
-
-```bash
-python3 -m unittest discover -s tests
-```
-
----
-
-# PM-Analyze 中文说明
-
 一条命令分析任意 Polymarket 钱包。不需要 API Key，不需要装依赖，有 Python 就行。
 
 ## 怎么用
@@ -140,6 +61,76 @@ python3 scripts/polymarket_strategy_snapshot.py \
 - 不需要装任何包
 
 ## 跑测试
+
+```bash
+python3 -m unittest discover -s tests
+```
+
+---
+
+# English
+
+Analyze any Polymarket wallet in one command. No API key, no dependencies, just Python.
+
+## How it works
+
+1. Go to any Polymarket profile page, copy the wallet address from the URL
+
+   ```
+   https://polymarket.com/profile/0xABC123...
+                                   ^^^^^^^^^^^ copy this
+   ```
+
+2. Run the script
+
+   ```bash
+   python3 scripts/polymarket_strategy_snapshot.py \
+     --user 0xABC123... \
+     --output snapshot.json
+   ```
+
+3. Done. Open `snapshot.json` to see the full analysis.
+
+## What you get
+
+| What | Example |
+|---|---|
+| Trading rhythm | How often they trade, what time of day |
+| Market focus | Sports? Politics? Crypto? |
+| Position exposure | How much money at risk, which direction |
+| PnL | Are they making or losing money |
+| Order book context | Spread, depth, liquidity around their positions |
+| Execution style | Market orders vs limit orders, size patterns |
+
+## Privacy
+
+Wallet addresses are masked by default (`0x1234...abcd`). Your analysis is safe to share.
+
+Want raw addresses? Add `--include-identifiers`.
+
+## Advanced options
+
+```bash
+python3 scripts/polymarket_strategy_snapshot.py \
+  --user 0xABC123... \
+  --days 14 \          # lookback window, default 30
+  --limit 20000 \      # max rows to fetch
+  --top-slugs 12 \     # how many markets to deep-dive
+  --output snapshot.json
+```
+
+## What this does NOT do
+
+- **No trading** — doesn't place any orders
+- **No copy-trade** — doesn't generate follow signals
+- **No private API** — all data from public endpoints
+
+## Requirements
+
+- Python 3.8+
+- No pip install needed
+
+## Run tests
 
 ```bash
 python3 -m unittest discover -s tests
