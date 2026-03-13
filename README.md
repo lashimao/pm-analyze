@@ -1,6 +1,6 @@
 # PM-Analyze
 
-一个 Claude Skill，帮你看懂任意 Polymarket 玩家在干什么。
+一个 Claude Skill，帮你扒出任意 Polymarket 玩家的策略核心——他在哪打、打什么价位、拿多久、靠什么赚钱。
 
 ## 怎么用
 
@@ -139,7 +139,7 @@ python3 -m unittest discover -s tests
 
 # English
 
-A Claude Skill that lets you understand what any Polymarket player is doing.
+A Claude Skill that extracts the strategy core of any Polymarket player — where they play, at what price, how long they hold, and how they make money.
 
 ## How to use
 
